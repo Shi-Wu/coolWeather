@@ -1,16 +1,17 @@
-package db;
+package com.coolweather.app.db;
 
 
 import java.util.ArrayList;
 import java.util.List;
 
-import model.Province;
-import model.City;
-import model.Country;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+
+import com.coolweather.app.model.City;
+import com.coolweather.app.model.Country;
+import com.coolweather.app.model.Province;
 
 public class CoolWeatherDB {
    //DataBase Name
@@ -77,7 +78,10 @@ public class CoolWeatherDB {
      
      public List<City> loadCities(int provinceId){
     	 List<City> list=new ArrayList<City>();
-			Cursor cursor=db.query("City", null,"provinceId=?", new String[]{String.valueOf(provinceId)}, null, null, null);
+	     Cursor cursor=db.query("City", null,"province_id = ?",new String[]{String.valueOf(provinceId)}, null, null, null);
+	     //Cursor cursor=db.quer
+    	// Cursor cursor=db.query("City", null,null,null, null, null, null);
+    	// Cursor cursor=db.rawQuery("select * from City where province_id=?", new String{provinceId});
 			if(cursor.moveToFirst()){
 				do{
 					City city=new City();
@@ -107,7 +111,7 @@ public class CoolWeatherDB {
      //get country information from database
      public List<Country> loadCountries(int cityId){
     	 List<Country> list=new ArrayList<Country>();
-			Cursor cursor=db.query("Country", null,"city_Id=?", new String[]{String.valueOf(cityId)}, null, null, null);
+			Cursor cursor=db.query("Country", null,"city_id = ?", new String[]{String.valueOf(cityId)}, null, null, null);
 			if(cursor.moveToFirst()){
 				do{
 					Country country=new Country();
@@ -120,7 +124,6 @@ public class CoolWeatherDB {
 			}
 			return list;
        }
-			
 }
 
      
@@ -139,6 +142,4 @@ public class CoolWeatherDB {
      
      
      
-     
-     
-}
+   

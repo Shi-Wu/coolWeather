@@ -1,9 +1,10 @@
-package model;
+package com.coolweather.app.model;
 
 public class City {
 	 private int id;
      private String cityName;
      private String cityCode;
+     private int provinceId;
      
      
      public int getId(){
@@ -24,4 +25,11 @@ public class City {
      public String getCityCode(){
     	 return cityCode;
      }
+     
+    public int getProvinceId(){
+    	return provinceId;
+    }
+    public void setProvinceId(int provinceId){
+    	this.provinceId=provinceId;
+    }
 }
