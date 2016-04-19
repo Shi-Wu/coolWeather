@@ -5,9 +5,11 @@ import java.util.List;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
@@ -41,7 +43,7 @@ public class ChooseAreaActivity extends Activity {
     
     private ArrayAdapter<String> adapter;
     private CoolWeatherDB coolWeatherDB;
-    private List<String> dataList=new ArrayList<String> ();
+    private List<String> dataList= new ArrayList<String> ();
     
   
     
@@ -67,6 +69,15 @@ public class ChooseAreaActivity extends Activity {
     
     protected void onCreate(Bundle savedInstanceState){
     	super.onCreate(savedInstanceState);
+    	
+    	SharedPreferences prefs=PreferenceManager.getDefaultSharedPreferences(this);
+    	if(prefs.getBoolean("city_selected", false)){
+    		Intent intent=new Intent(this,WeatherActivity.class);
+    		startActivity(intent);
+    		finish();
+    		return;
+    	}
+    	
     	requestWindowFeature(Window.FEATURE_NO_TITLE);
     	setContentView(R.layout.choose_area);
     	listView=(ListView) findViewById(R.id.list_view);
@@ -87,6 +98,12 @@ public class ChooseAreaActivity extends Activity {
 				}else if(currentLevel==LEVEL_CITY){
 					selectedCity=cityList.get(position);
 					queryCountries();
+				}else if(currentLevel==LEVEL_COUNTRY){
+					String countryCode=countryList.get(position).getCountryCode();
+					Intent intent=new Intent(ChooseAreaActivity.this,WeatherActivity.class);
+					intent.putExtra("country_code",countryCode);
+					startActivity(intent);
+					finish();
 				}
 			}
     	});
@@ -154,7 +171,7 @@ public class ChooseAreaActivity extends Activity {
     
     
     //根据传入的代号和类型在服务器上查询.
-    private void queryFromSever(final String code,final String type){
+   public  void queryFromSever(final String code,final String type){
     	String address;
     	if(!TextUtils.isEmpty(code)){
     		address="http://www.weather.com.cn/data/list3/city"+code+".xml";
