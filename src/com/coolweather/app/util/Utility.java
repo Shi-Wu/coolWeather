@@ -1,6 +1,7 @@
 package com.coolweather.app.util;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 
 import org.json.JSONObject;
@@ -99,6 +100,12 @@ public class Utility {
 		 editor.putBoolean("city_selected",true);
 		 editor.putString("city_name", cityName);
 		 editor.putString("weather_code", weatherCode);
+		 editor.putString("temp1", temp1);
+		 editor.putString("temp2", temp2);
+		 editor.putString("weather_desp", weatherDesp);
+		 editor.putString("publish_time", publishTime);
+		 editor.putString("current_date", sdf.format(new Date()));
+		 editor.commit();
 	 }
 
 }

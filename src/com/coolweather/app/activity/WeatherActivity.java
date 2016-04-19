@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -66,6 +67,7 @@ public class WeatherActivity extends Activity implements OnClickListener{
 		switchCity=(Button) findViewById(R.id.switch_city);
 		refreshWeather=(Button)findViewById(R.id.refresh_weather);
 		String countryCode=getIntent().getStringExtra("country_code");
+		
 		if(!TextUtils.isEmpty(countryCode)){
 			publishText.setText("同步中...");
 			weatherInfoLayout.setVisibility(View.INVISIBLE);
@@ -131,11 +133,12 @@ public class WeatherActivity extends Activity implements OnClickListener{
 			}
 
 			@Override
-			public void onError(Exception e) {
+			public void onError(final Exception e) {
 				// TODO Auto-generated method stub
 				runOnUiThread(new Runnable(){
 					public void run(){
 						publishText.setText("同步失败");
+						
 					}
 				});
 			}
@@ -173,7 +176,7 @@ public class WeatherActivity extends Activity implements OnClickListener{
 			finish();
 			break;
 		case R.id.refresh_weather:
-			publishText.setText("");
+			publishText.setText("同步中....");
 			SharedPreferences prefs=PreferenceManager.getDefaultSharedPreferences(this);
 			String weatherCode=prefs.getString("weather_code", "");
 			if(!TextUtils.isEmpty(weatherCode)){
